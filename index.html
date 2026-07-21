@@ -1,1 +1,856 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete Flutter Interview Q&A for Freshers (36 Questions)</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4fa;
+      color: #1a2332;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .header h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #0175c2;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .header h1 i {
+      color: #0175c2;
+    }
+
+    .header .badge-count {
+      background: #0175c2;
+      color: #fff;
+      padding: 4px 18px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      color: #4a5a72;
+      margin-top: 6px;
+    }
+
+    /* Category badge */
+    .category-badge {
+      display: inline-block;
+      background: #0175c2;
+      color: #fff;
+      padding: 3px 14px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    /* FAQ Item */
+    .faq-item {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(1, 117, 194, 0.07);
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: box-shadow 0.25s ease, transform 0.2s ease;
+      border: 1px solid #e3ecf5;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 12px 32px rgba(1, 117, 194, 0.13);
+      transform: translateY(-2px);
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 1.8rem;
+      cursor: pointer;
+      background: #ffffff;
+      transition: background 0.2s;
+      user-select: none;
+    }
+
+    .faq-question:hover {
+      background: #f7faff;
+    }
+
+    .faq-question .q-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .faq-question .q-number {
+      font-weight: 700;
+      color: #0175c2;
+      background: #e3effa;
+      border-radius: 40px;
+      padding: 2px 12px;
+      font-size: 0.85rem;
+      min-width: 32px;
+      text-align: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .faq-question .q-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1a2b3c;
+      line-height: 1.4;
+    }
+
+    .faq-question .q-icon {
+      font-size: 1.2rem;
+      color: #8ba0b5;
+      transition: transform 0.3s ease;
+      margin-left: 16px;
+      flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-question .q-icon {
+      transform: rotate(180deg);
+      color: #0175c2;
+    }
+
+    /* Answer */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+      padding: 0 1.8rem;
+      background: #fafdff;
+      border-top: 1px solid transparent;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 3000px; /* plenty for long answers */
+      padding: 1.4rem 1.8rem 1.8rem;
+      border-top-color: #dce7f2;
+    }
+
+    .faq-answer p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #2d4055;
+      margin-bottom: 0.8rem;
+    }
+
+    .faq-answer p:last-child {
+      margin-bottom: 0;
+    }
+
+    .faq-answer code {
+      background: #e6eef7;
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #0175c2;
+      font-family: 'Fira Code', 'Consolas', monospace;
+    }
+
+    .faq-answer pre {
+      background: #eaf1f9;
+      padding: 0.8rem 1.2rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+      color: #1a2b3c;
+      margin: 0.6rem 0 0.9rem;
+      border-left: 3px solid #0175c2;
+    }
+
+    .faq-answer ul {
+      padding-left: 1.6rem;
+      margin: 0.5rem 0 0.8rem;
+    }
+
+    .faq-answer ul li {
+      margin-bottom: 0.3rem;
+      line-height: 1.6;
+    }
+
+    .highlight-box {
+      background: #e5f0fa;
+      border-left: 4px solid #0175c2;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      margin: 0.8rem 0;
+    }
+
+    .highlight-box strong {
+      color: #0175c2;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.95rem;
+      color: #6b7f94;
+      border-top: 1px solid #dbe4ee;
+      padding-top: 2rem;
+    }
+
+    .footer i {
+      color: #0175c2;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      .faq-question {
+        padding: 0.9rem 1.2rem;
+      }
+      .faq-question .q-text {
+        font-size: 0.95rem;
+      }
+      .faq-answer {
+        padding: 0 1.2rem;
+      }
+      .faq-item.active .faq-answer {
+        padding: 1rem 1.2rem 1.4rem;
+      }
+      .faq-question .q-left {
+        gap: 8px;
+      }
+    }
+
+    /* smooth scroll */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #eef3f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #b0c8dd;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0175c2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>
+        <i class="fab fa-flutter"></i>
+        Flutter Interview Q&A
+        <i class="fas fa-code"></i>
+      </h1>
+      <span class="badge-count">🔥 36 Fresher Questions</span>
+      <p>Complete guide — Basics · Dart · Widgets · State · Networking · Testing & more</p>
+    </div>
+
+    <!-- FAQ Container -->
+    <div id="faqContainer"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <i class="fas fa-graduation-cap"></i> Ace your Flutter interview &nbsp;·&nbsp; Updated for 2026
+    </div>
+  </div>
+
+  <script>
+    // ──────────────────────────────────────────────────────────────
+    // MASTER DATA – 36 Questions (includes all previous + 12 new)
+    // ──────────────────────────────────────────────────────────────
+    const faqData = [
+      // ─── PART 1: FLUTTER & DART BASICS (1–5) ──────────────────
+      {
+        category: 'Basics',
+        question: 'What is Flutter, and why is it used?',
+        answer: `
+          <p><strong>Flutter</strong> is Google's open-source UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.</p>
+          <p><strong>Why it's used:</strong></p>
+          <ul>
+            <li><strong>Single codebase</strong> – write once, run on Android, iOS, web, and desktop.</li>
+            <li><strong>Fast development</strong> – hot reload allows you to see changes instantly.</li>
+            <li><strong>Expressive UIs</strong> – a rich set of customizable widgets that follow platform-specific design (Material & Cupertino).</li>
+            <li><strong>High performance</strong> – compiles directly to native ARM code using its own rendering engine (Skia/Impeller).</li>
+          </ul>
+          <div class="highlight-box"><strong>💡 Tip:</strong> Flutter does <em>not</em> use OEM widgets; it paints every pixel itself, ensuring consistent UI across platforms.</div>
+        `
+      },
+      {
+        category: 'Basics',
+        question: 'How does Flutter differ from React Native?',
+        answer: `
+          <p>While both are cross-platform frameworks, the core difference lies in the <strong>rendering approach</strong>:</p>
+          <ul>
+            <li><strong>React Native</strong> uses a JavaScript bridge to communicate with native components. It relies on OEM widgets, which can lead to platform-specific inconsistencies and a performance overhead due to the bridge.</li>
+            <li><strong>Flutter</strong> does <em>not</em> use a bridge. It compiles to native machine code and uses its own rendering engine (Skia) to draw every pixel. This results in:</li>
+            <ul>
+              <li>Better performance (no bridge serialization).</li>
+              <li>Perfect UI consistency across platforms.</li>
+              <li>Faster startup times (AOT compilation).</li>
+            </ul>
+          </ul>
+          <p>Flutter also offers a more reactive and declarative UI model, similar to React but without the bridge overhead.</p>
+        `
+      },
+      {
+        category: 'Basics',
+        question: 'Why did Google choose Dart for Flutter?',
+        answer: `
+          <p>Dart was chosen because it provides the best balance of features for a UI framework:</p>
+          <ul>
+            <li><strong>JIT (Just-In-Time)</strong> compilation enables <strong>hot reload</strong> for blazing fast development cycles.</li>
+            <li><strong>AOT (Ahead-Of-Time)</strong> compilation produces highly optimized machine code for production, ensuring smooth performance.</li>
+            <li>Dart has a <strong>garbage collector</strong> that handles memory efficiently.</li>
+            <li>It is <strong>object-oriented</strong> and easy to learn for developers coming from Java, C#, or JavaScript.</li>
+            <li>Dart's rich standard library and strong typing help build large-scale applications.</li>
+          </ul>
+          <div class="highlight-box"><strong>🔥 Key point:</strong> Dart's ability to do both JIT and AOT makes it uniquely suited for Flutter's needs.</div>
+        `
+      },
+      {
+        category: 'Basics',
+        question: 'What is the role of the pubspec.yaml file?',
+        answer: `
+          <p><code>pubspec.yaml</code> is the <strong>project manifest</strong> for Flutter and Dart packages. It defines:</p>
+          <ul>
+            <li><strong>Metadata</strong> – project name, version, description.</li>
+            <li><strong>Dependencies</strong> – both direct and transitive packages (e.g., <code>http</code>, <code>provider</code>).</li>
+            <li><strong>Assets</strong> – images, fonts, JSON files, etc., that your app uses.</li>
+            <li><strong>Flutter-specific</strong> – such as <code>uses-material-design: true</code>.</li>
+          </ul>
+          <p>When you run <code>flutter pub get</code>, Flutter downloads all the dependencies listed here.</p>
+        `
+      },
+      {
+        category: 'Basics',
+        question: 'What is the difference between main() and runApp()?',
+        answer: `
+          <p><code>main()</code> is the <strong>entry point</strong> of every Dart program. Inside it, you typically call <code>runApp()</code>.</p>
+          <p><code>runApp()</code> takes a <code>Widget</code> (usually the root widget of your app) and inflates it, attaching it to the screen. It also sets up the binding between the framework and the platform (e.g., gesture, keyboard, etc.).</p>
+          <p>In a Flutter app, the minimal code looks like:</p>
+          <pre>void main() { runApp(MyApp()); }</pre>
+        `
+      },
+
+      // ─── PART 2: DART LANGUAGE (6–9) ──────────────────────────
+      {
+        category: 'Dart',
+        question: 'Explain var, final, and const in Dart.',
+        answer: `
+          <ul>
+            <li><strong><code>var</code></strong> – type is inferred. The variable can be reassigned later (to a value of the same inferred type).</li>
+            <li><strong><code>final</code></strong> – assigned only <em>once</em> at <strong>runtime</strong>. Cannot be changed after initialization.</li>
+            <li><strong><code>const</code></strong> – a <strong>compile-time</strong> constant. Its value must be known at compile time and is implicitly <code>final</code>.</li>
+          </ul>
+          <p><strong>Example:</strong></p>
+          <pre>var name = 'Alice';   // inferred as String
+        final pi = 3.14;    // runtime constant
+        const gravity = 9.8; // compile-time constant</pre>
+          <div class="highlight-box"><strong>📌 Note:</strong> Use <code>const</code> when possible for performance – it creates a single, canonical instance.</div>
+        `
+      },
+      {
+        category: 'Dart',
+        question: 'What is Null Safety in Dart?',
+        answer: `
+          <p><strong>Null Safety</strong> is a language feature that prevents <code>null</code> pointer exceptions by distinguishing between nullable and non-nullable types at compile time.</p>
+          <ul>
+            <li>By default, variables are <strong>non-nullable</strong> – they cannot be assigned <code>null</code>.</li>
+            <li>To allow <code>null</code>, you append <code>?</code> to the type (e.g., <code>String? name</code>).</li>
+            <li>The compiler enforces safe handling of nullable values (e.g., you must check for <code>null</code> before using them).</li>
+          </ul>
+          <p>This dramatically reduces crashes and improves code quality.</p>
+        `
+      },
+      {
+        category: 'Dart',
+        question: 'What are Future and async/await in Dart?',
+        answer: `
+          <p><code>Future</code> represents a <strong>potential value</strong> (or error) that will be available at some point in the future – it's used for asynchronous operations.</p>
+          <p><code>async</code> and <code>await</code> are syntactic sugar that make asynchronous code look synchronous:</p>
+          <ul>
+            <li>Mark a function with <code>async</code> to use <code>await</code> inside it.</li>
+            <li><code>await</code> pauses execution of the function until the <code>Future</code> completes.</li>
+          </ul>
+          <p><strong>Example:</strong></p>
+          <pre>Future<String> fetchData() async {
+            final result = await http.get(...);
+            return result.body;
+          }</pre>
+        `
+      },
+      {
+        category: 'Dart',
+        question: 'What is a Stream in Dart?',
+        answer: `
+          <p>A <code>Stream</code> is a sequence of <strong>asynchronous events</strong> over time. Unlike a <code>Future</code> (which emits a single value), a <code>Stream</code> can emit multiple values (e.g., user taps, location updates, or real-time messages).</p>
+          <p>You can listen to a stream using <code>listen()</code> or use <code>async</code>/<code>await</code> with <code>for</code> loops (<code>await for</code>).</p>
+          <p><strong>Common use cases:</strong> reading from a socket, handling user input streams, or receiving data from Firebase.</p>
+        `
+      },
+
+      // ─── PART 3: WIDGETS & UI (10–16) ─────────────────────────
+      {
+        category: 'Widgets',
+        question: 'StatelessWidget vs StatefulWidget – what’s the difference?',
+        answer: `
+          <ul>
+            <li><strong>StatelessWidget</strong> – immutable. The UI depends solely on the configuration (constructor parameters) and does not change after build. No internal state to manage.</li>
+            <li><strong>StatefulWidget</strong> – mutable. It has a separate <code>State</code> object that holds data that can change over time. When the state changes, you call <code>setState()</code> to trigger a rebuild.</li>
+          </ul>
+          <p><strong>When to choose?</strong> Start with <code>StatelessWidget</code>; only use <code>StatefulWidget</code> when you need dynamic behavior (like animations, form fields, or real-time updates).</p>
+        `
+      },
+      {
+        category: 'Widgets',
+        question: 'What is BuildContext and why is it important?',
+        answer: `
+          <p><code>BuildContext</code> is a handle to the <strong>location of a widget</strong> in the widget tree. It provides access to:</p>
+          <ul>
+            <li>Ancestor widgets (using <code>findAncestorWidgetOfExactType()</code>).</li>
+            <li>Inherited widgets (like <code>Theme.of(context)</code>, <code>MediaQuery.of(context)</code>).</li>
+            <li>Navigator (<code>Navigator.of(context)</code>).</li>
+          </ul>
+          <p>It is passed to the <code>build</code> method of every widget, acting as the bridge between the widget and its surroundings.</p>
+        `
+      },
+      {
+        category: 'Widgets',
+        question: 'Expanded vs Flexible – what’s the difference?',
+        answer: `
+          <p>Both are used inside <code>Row</code>, <code>Column</code>, or <code>Flex</code> to control how children fill available space.</p>
+          <ul>
+            <li><strong><code>Expanded</code></strong> – forces its child to occupy <em>all</em> remaining free space along the main axis. It is equivalent to <code>Flexible(fit: FlexFit.tight)</code>.</li>
+            <li><strong><code>Flexible</code></strong> – gives the child a chance to take space (flex factor) but does <em>not</em> force it to fill all space. You can specify <code>fit: FlexFit.loose</code> (child sizes itself) or <code>tight</code> (fills remaining).</li>
+          </ul>
+          <p><strong>Use case:</strong> Use <code>Expanded</code> when you want a child to stretch to fill the available space; use <code>Flexible</code> when you want the child to size itself based on its intrinsic dimensions.</p>
+        `
+      },
+      {
+        category: 'Widgets',
+        question: 'Container vs SizedBox – what’s the difference?',
+        answer: `
+          <ul>
+            <li><strong><code>Container</code></strong> – a versatile widget that combines painting, positioning, and sizing. You can set <code>padding</code>, <code>margin</code>, <code>color</code>, <code>decoration</code> (borders, shadows), and <code>alignment</code>.</li>
+            <li><strong><code>SizedBox</code></strong> – a simple box with fixed <code>width</code> and <code>height</code>. It is often used to add empty space (e.g., <code>SizedBox(height: 20)</code>) or to constrain a child's size.</li>
+          </ul>
+          <p><strong>Rule of thumb:</strong> Use <code>SizedBox</code> for spacing or sizing constraints; use <code>Container</code> when you need decorations or complex layout.</p>
+        `
+      },
+      {
+        category: 'Widgets',
+        question: 'Why use ListView.builder() instead of a normal ListView?',
+        answer: `
+          <p><code>ListView.builder()</code> creates children <strong>lazily</strong> – only when they are about to appear on screen. This is crucial for performance when dealing with:</p>
+          <ul>
+            <li>Very long lists (hundreds or thousands of items).</li>
+            <li>Dynamic data where the list length is unknown.</li>
+            <li>Memory efficiency – only the visible items are kept in memory.</li>
+          </ul>
+          <p>In contrast, a normal <code>ListView</code> (with a list of children) builds all children at once, which can cause OOM errors for large lists.</p>
+        `
+      },
+      {
+        category: 'Widgets',
+        question: 'What does the SafeArea widget do?',
+        answer: `
+          <p><code>SafeArea</code> adds padding to its child to avoid <strong>system UI elements</strong> like the status bar, notch, home indicator, or rounded corners. This ensures your content is not obscured and remains fully visible.</p>
+          <p>It is especially important on devices with notches (like iPhones) or on Android with gesture navigation. You can also control which edges to avoid using the <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code> parameters.</p>
+        `
+      },
+      {
+        category: 'Widgets',
+        question: 'What is the difference between mainAxisAlignment and crossAxisAlignment?',
+        answer: `
+          <ul>
+            <li><strong><code>mainAxisAlignment</code></strong>: Aligns children along the <strong>main axis</strong> (vertical for <code>Column</code>, horizontal for <code>Row</code>). Options: <code>start</code>, <code>end</code>, <code>center</code>, <code>spaceBetween</code>, <code>spaceAround</code>, <code>spaceEvenly</code>.</li>
+            <li><strong><code>crossAxisAlignment</code></strong>: Aligns children along the <strong>cross axis</strong> (horizontal for <code>Column</code>, vertical for <code>Row</code>). Options: <code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code>.</li>
+          </ul>
+          <p><strong>Example:</strong> In a <code>Column</code>, <code>mainAxisAlignment</code> controls vertical spacing, while <code>crossAxisAlignment</code> controls horizontal alignment (left, right, center).</p>
+        `
+      },
+
+      // ─── PART 4: STATE MANAGEMENT (17–19) ──────────────────────
+      {
+        category: 'State Management',
+        question: 'How does setState() work?',
+        answer: `
+          <p><code>setState()</code> is a method provided by the <code>State</code> class. When you call it, you pass a callback that updates the state. The framework then:</p>
+          <ul>
+            <li>Schedules a rebuild of the widget and its descendants.</li>
+            <li>Re-executes the <code>build</code> method with the new state.</li>
+          </ul>
+          <p>It is the simplest way to manage <strong>ephemeral (local) state</strong> that belongs to a single widget. However, for shared state across multiple widgets, more robust solutions like <code>Provider</code> or <code>Riverpod</code> are recommended.</p>
+          <div class="highlight-box"><strong>⚠️ Important:</strong> Always call <code>setState()</code> inside the State class, never from outside.</div>
+        `
+      },
+      {
+        category: 'State Management',
+        question: 'Name a few state management approaches in Flutter.',
+        answer: `
+          <ul>
+            <li><strong><code>setState()</code></strong> – for local, simple state.</li>
+            <li><strong><code>InheritedWidget</code></strong> – the underlying mechanism for propagating data down the tree (used by many libraries).</li>
+            <li><strong><code>Provider</code></strong> – a wrapper around <code>InheritedWidget</code>, recommended by the Flutter team for beginners. Easy to use and test.</li>
+            <li><strong><code>Riverpod</code></strong> – a compile-safe evolution of Provider, with no reliance on <code>BuildContext</code>.</li>
+            <li><strong><code>BLoC</code></strong> (Business Logic Component) – uses streams and events to separate business logic from UI. Great for large, complex apps.</li>
+            <li><strong><code>GetX</code></strong> – a lightweight solution with reactivity, routing, and dependency injection.</li>
+          </ul>
+        `
+      },
+      {
+        category: 'State Management',
+        question: 'What does “lifting state up” mean?',
+        answer: `
+          <p>When multiple widgets need to share the same state, you move (lift) that state to their <strong>nearest common ancestor</strong>. The ancestor holds the state and passes it down to the children via constructors or through an <code>InheritedWidget</code>.</p>
+          <p>This pattern avoids duplicating state and keeps the data flow unidirectional, making the app easier to debug and maintain.</p>
+        `
+      },
+
+      // ─── PART 5: NAVIGATION & LIFECYCLE (20–22) ──────────────
+      {
+        category: 'Navigation',
+        question: 'How do you navigate to a new screen in Flutter?',
+        answer: `
+          <p>Flutter uses a <strong><code>Navigator</code></strong> widget that manages a stack of routes (pages).</p>
+          <ul>
+            <li><strong>Push</strong> a new screen: <code>Navigator.push(context, MaterialPageRoute(builder: (context) => NewScreen()));</code></li>
+            <li><strong>Pop</strong> to go back: <code>Navigator.pop(context);</code></li>
+          </ul>
+          <p>For named routes, you can define them in <code>MaterialApp.routes</code> and use <code>Navigator.pushNamed(context, '/details')</code>.</p>
+        `
+      },
+      {
+        category: 'Navigation',
+        question: 'What are named routes and why use them?',
+        answer: `
+          <p><strong>Named routes</strong> are routes that have a string identifier. They are defined in the <code>routes</code> parameter of <code>MaterialApp</code>:</p>
+          <pre>routes: {
+            '/': (context) => HomeScreen(),
+            '/details': (context) => DetailsScreen(),
+          }</pre>
+          <p><strong>Benefits:</strong></p>
+          <ul>
+            <li>Centralized route management – all routes are declared in one place.</li>
+            <li>Cleaner navigation code – just <code>Navigator.pushNamed(context, '/details')</code>.</li>
+            <li>Supports deep linking and dynamic arguments via <code>arguments</code> parameter.</li>
+          </ul>
+        `
+      },
+      {
+        category: 'Lifecycle',
+        question: 'What are the key lifecycle methods of a StatefulWidget?',
+        answer: `
+          <ul>
+            <li><strong><code>createState()</code></strong> – called when the widget is inserted into the tree; returns the mutable <code>State</code> object.</li>
+            <li><strong><code>initState()</code></strong> – called once immediately after the State object is created. Use it for initializing data, streams, or controllers. <em>Do not</em> call <code>setState()</code> here.</li>
+            <li><strong><code>didChangeDependencies()</code></strong> – called when an inherited widget on which this widget depends has changed.</li>
+            <li><strong><code>build()</code></strong> – called many times; it describes the UI. Must be pure and side-effect free.</li>
+            <li><strong><code>didUpdateWidget()</code></strong> – called when the parent widget changes and rebuilds this widget (e.g., new configuration).</li>
+            <li><strong><code>dispose()</code></strong> – called when the widget is permanently removed. <strong>Always cancel streams, timers, and dispose controllers here</strong> to prevent memory leaks.</li>
+          </ul>
+        `
+      },
+
+      // ─── PART 6: PERFORMANCE & BUILD (23–25) ──────────────────
+      {
+        category: 'Performance',
+        question: 'Does a Future cause the UI to freeze?',
+        answer: `
+          <p><strong>It depends on what the Future does.</strong></p>
+          <ul>
+            <li>If the <code>Future</code> performs <strong>I/O operations</strong> (network, file, database) – these are non‑blocking because they are handled by the OS in separate threads. The UI remains responsive.</li>
+            <li>If the <code>Future</code> does <strong>heavy CPU-bound calculations</strong> (e.g., image processing, big loops) – they will block the UI thread because Dart is single-threaded. You should offload such work to an <strong>isolate</strong> (separate thread) using <code>compute()</code>.</li>
+          </ul>
+        `
+      },
+      {
+        category: 'Performance',
+        question: 'How do you handle errors in a Future?',
+        answer: `
+          <p>You can handle errors in two ways:</p>
+          <ul>
+            <li><strong>try-catch</strong> inside an <code>async</code> function:
+              <pre>try {
+                var data = await fetchData();
+              } catch (e) {
+                print('Error: $e');
+              }</pre>
+            </li>
+            <li><strong><code>.catchError()</code></strong> on the Future:
+              <pre>fetchData().catchError((error) => print(error));</pre>
+            </li>
+          </ul>
+          <p>For production apps, consider using a <code>FutureBuilder</code> with <code>snapshot.hasError</code> to show error UI to the user.</p>
+        `
+      },
+      {
+        category: 'Performance',
+        question: 'What triggers the build() method to be called?',
+        answer: `
+          <p>The <code>build()</code> method is called in these scenarios:</p>
+          <ul>
+            <li>When <code>initState()</code> is called (first build).</li>
+            <li>When <code>didChangeDependencies()</code> is called.</li>
+            <li>When <code>setState()</code> is called.</li>
+            <li>When <code>didUpdateWidget()</code> is called (parent rebuilds).</li>
+            <li>When the parent widget rebuilds and passes new data.</li>
+          </ul>
+          <p>To optimize performance, avoid expensive operations inside <code>build()</code>; keep it simple and use <code>const</code> widgets where possible.</p>
+        `
+      },
+
+      // ─── NEW: BUILD MODES & KEYS (26–27) ──────────────────────
+      {
+        category: 'Deployment',
+        question: 'What are the different build modes in Flutter?',
+        answer: `
+          <p>Flutter has three main build modes:</p>
+          <ul>
+            <li><strong>Debug Mode</strong>: Used during development. Runs on the <strong>JIT</strong> compiler, enabling <strong>Hot Reload</strong> and <strong>Hot Restart</strong>. Includes extensive debugging and asserts, but performance is slower.</li>
+            <li><strong>Release Mode</strong>: Used for deploying to the App Store or Play Store. Uses <strong>AOT</strong> compilation for maximum performance and fast startup. Debugging tools are disabled.</li>
+            <li><strong>Profile Mode</strong>: Used specifically for <strong>performance profiling</strong>. Runs with AOT (like Release) but retains some debugging info to connect to DevTools. Never ship Profile builds to end-users.</li>
+          </ul>
+          <div class="highlight-box"><strong>📦 Tip:</strong> Use <code>flutter run --release</code> to test the final performance before publishing.</div>
+        `
+      },
+      {
+        category: 'Advanced',
+        question: 'What are Keys and when would you use a GlobalKey?',
+        answer: `
+          <p><code>Keys</code> are identifiers for widgets, elements, and semantics nodes. Flutter uses them to preserve the state of widgets when they move around the tree (e.g., when list items are reordered or swapped).</p>
+          <ul>
+            <li><strong>Common types</strong>: <code>ValueKey</code> (uses a simple value), <code>ObjectKey</code> (uses object identity), <code>UniqueKey</code> (guaranteed unique).</li>
+            <li><strong><code>GlobalKey</code></strong>: A special key that allows you to access the <strong>State</strong> of a widget from anywhere in the app.</li>
+          </ul>
+          <p><strong>Use case:</strong> You use <code>GlobalKey</code> when you need to call a method on a child widget, such as <code>_formKey.currentState?.validate()</code> to validate a <code>Form</code> from a parent widget.</p>
+        `
+      },
+
+      // ─── NEW: NETWORKING & PERSISTENCE (28–30) ────────────────
+      {
+        category: 'Networking',
+        question: 'How do you make network requests in Flutter?',
+        answer: `
+          <p>You use the <code>http</code> package (or <code>dio</code> for advanced features like interceptors and timeouts).</p>
+          <pre>import 'package:http/http.dart' as http;
+
+        Future<void> fetchData() async {
+          try {
+            final response = await http.get(Uri.parse('https://api.example.com/data'));
+            if (response.statusCode == 200) {
+              // Parse JSON response
+            } else {
+              // Handle server errors (404, 500, etc.)
+            }
+          } catch (e) {
+            // Handle network/timeout errors
+            print('Network error: $e');
+          }
+        }</pre>
+          <p><strong>For freshers:</strong> Always wrap <code>http</code> calls in <code>try-catch</code> and check the <code>statusCode</code> to provide user-friendly error messages (often shown via <code>SnackBar</code>).</p>
+        `
+      },
+      {
+        category: 'Networking',
+        question: 'What is the difference between FutureBuilder and StreamBuilder?',
+        answer: `
+          <ul>
+            <li><strong><code>FutureBuilder</code></strong>: Used to build UI based on a single asynchronous computation that completes <strong>once</strong> (e.g., a single GET request, reading a file once). It takes a <code>Future</code> and rebuilds when it completes (loading → data/error).</li>
+            <li><strong><code>StreamBuilder</code></strong>: Used to build UI based on a <strong>continuous sequence</strong> of asynchronous events (e.g., real-time location updates, Firebase listeners, or user typing). It rebuilds every time a new event is emitted from the <code>Stream</code>.</li>
+          </ul>
+        `
+      },
+      {
+        category: 'Data Persistence',
+        question: 'What are the ways to store data locally in Flutter?',
+        answer: `
+          <ul>
+            <li><strong>SharedPreferences</strong>: Stores simple key-value pairs (String, int, bool, double). Used for user settings or login tokens.</li>
+            <li><strong>sqflite</strong>: SQLite database for complex, relational data. Requires writing SQL queries.</li>
+            <li><strong>Hive / Isar</strong>: NoSQL, high-performance databases that store typed objects directly. Hive is fast, lightweight, and doesn't require native dependencies.</li>
+            <li><strong>File Storage</strong>: Using the <code>path_provider</code> package to read/write files to the device's local storage.</li>
+          </ul>
+        `
+      },
+
+      // ─── NEW: PLATFORM CHANNELS & APP LIFECYCLE (31–32) ──────
+      {
+        category: 'Platform',
+        question: 'How do you call native Android/iOS code from Flutter?',
+        answer: `
+          <p>You use <strong>Platform Channels</strong>, specifically the <code>MethodChannel</code>.</p>
+          <ol>
+            <li>On the Dart side, you create a <code>MethodChannel</code> with a specific name.</li>
+            <li>You call <code>invokeMethod('methodName')</code>.</li>
+            <li>On the native side (Kotlin/Java or Swift/Objective-C), you set up a listener for that same channel name and handle the method call.</li>
+            <li>The native code returns a result back to Dart via the channel.</li>
+          </ol>
+          <p><strong>When to use?</strong> When you need a device-specific feature that a Flutter plugin doesn't support (e.g., accessing a proprietary hardware sensor).</p>
+        `
+      },
+      {
+        category: 'Lifecycle',
+        question: 'How do you listen to the App lifecycle state (background/foreground)?',
+        answer: `
+          <p>You use the <code>WidgetsBindingObserver</code> mixin on your <code>State</code> class.</p>
+          <p>Override the <code>didChangeAppLifecycleState()</code> method to listen for:</p>
+          <ul>
+            <li><code>AppLifecycleState.resumed</code> – App is in the foreground and interactive.</li>
+            <li><code>AppLifecycleState.inactive</code> – App is in an inactive state (e.g., answering a phone call).</li>
+            <li><code>AppLifecycleState.paused</code> – App is in the background.</li>
+            <li><code>AppLifecycleState.detached</code> – App is about to be terminated.</li>
+          </ul>
+          <p><strong>Example:</strong> Pause video playback when the state changes to <code>paused</code>.</p>
+        `
+      },
+
+      // ─── NEW: TESTING, ISOLATES, IMAGES (33–35) ──────────────
+      {
+        category: 'Testing',
+        question: 'What are the three types of tests in Flutter?',
+        answer: `
+          <ul>
+            <li><strong>Unit Tests</strong>: Test a single function, method, or class. Fast and do not involve the UI. (Used with <code>test</code> package).</li>
+            <li><strong>Widget Tests</strong>: Test a single widget in isolation. They ensure the UI looks correct and interactions work. (Used with <code>flutter_test</code> package, <code>tester.pumpWidget()</code>).</li>
+            <li><strong>Integration Tests</strong>: Test the complete app or a large part of it running on a real device/emulator. Usually used to test critical user flows (e.g., login, checkout). (Used with <code>integration_test</code> package).</li>
+          </ul>
+        `
+      },
+      {
+        category: 'Advanced',
+        question: 'What is an Isolate in Dart? How does it differ from a Thread?',
+        answer: `
+          <p>Dart is single-threaded. An <strong>Isolate</strong> is a separate, independent worker that runs its own event loop and has its own memory heap.</p>
+          <ul>
+            <li>Unlike traditional threads, isolates <strong>do not share memory</strong> (which prevents race conditions). They communicate by passing messages (via <code>SendPort</code> and <code>ReceivePort</code>).</li>
+            <li><strong>When to use</strong>: When you need to perform heavy CPU-bound tasks (like parsing a massive JSON file or image compression) that would otherwise freeze the UI.</li>
+            <li><strong>Simplified use</strong>: Flutter provides the <code>compute()</code> function, which is a simplified way to run a single function in a separate Isolate.</li>
+          </ul>
+        `
+      },
+      {
+        category: 'Assets',
+        question: 'How do you add images and handle resolution variants (2x, 3x) in Flutter?',
+        answer: `
+          <p>1. Declare the asset folder in <code>pubspec.yaml</code>:</p>
+          <pre>flutter:
+            assets:
+              - assets/images/logo.png</pre>
+          <p>2. To support different screen densities (HiDPI), create subfolders inside the asset folder:</p>
+          <ul>
+            <li><code>assets/images/logo.png</code> (1x, baseline)</li>
+            <li><code>assets/images/2.0x/logo.png</code> (2x)</li>
+            <li><code>assets/images/3.0x/logo.png</code> (3x)</li>
+          </ul>
+          <p>3. Access it in code: <code>Image.asset('assets/images/logo.png')</code>. Flutter automatically picks the correct resolution for the device's pixel ratio.</p>
+        `
+      },
+
+      // ─── NEW: didUpdateWidget (36) ─────────────────────────────
+      {
+        category: 'Lifecycle',
+        question: 'Can you explain when didUpdateWidget is called and give a real-world use case?',
+        answer: `
+          <p><code>didUpdateWidget()</code> is called when the <strong>parent widget rebuilds</strong> and passes a new configuration to this widget (i.e., the <code>StatefulWidget</code> instance gets new parameters).</p>
+          <p><strong>Real-world use case</strong>: Imagine a <code>ProgressBar</code> widget that receives a new <code>percentage</code> value from its parent. Inside <code>didUpdateWidget</code>, you compare the <code>oldWidget.percentage</code> with the new <code>widget.percentage</code>. If it changed, you can trigger a smooth animation.</p>
+          <div class="highlight-box"><strong>⚠️ Note:</strong> You should never call <code>setState()</code> inside <code>initState</code>, but you <em>can</em> call it inside <code>didUpdateWidget</code> (carefully) to react to external changes.</div>
+        `
+      }
+    ];
+
+    // ─── RENDER ────────────────────────────────────────────────────
+    const container = document.getElementById('faqContainer');
+
+    faqData.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'faq-item';
+
+      // Question
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'faq-question';
+      questionDiv.setAttribute('role', 'button');
+      questionDiv.setAttribute('aria-expanded', 'false');
+
+      const left = document.createElement('div');
+      left.className = 'q-left';
+
+      const numberSpan = document.createElement('span');
+      numberSpan.className = 'q-number';
+      numberSpan.textContent = index + 1;
+
+      const textSpan = document.createElement('span');
+      textSpan.className = 'q-text';
+      textSpan.innerHTML = `<span class="category-badge">${item.category}</span> ${item.question}`;
+
+      left.appendChild(numberSpan);
+      left.appendChild(textSpan);
+
+      const icon = document.createElement('i');
+      icon.className = 'fas fa-chevron-down q-icon';
+
+      questionDiv.appendChild(left);
+      questionDiv.appendChild(icon);
+
+      // Answer
+      const answerDiv = document.createElement('div');
+      answerDiv.className = 'faq-answer';
+      answerDiv.innerHTML = item.answer;
+
+      div.appendChild(questionDiv);
+      div.appendChild(answerDiv);
+      container.appendChild(div);
+
+      // Toggle
+      questionDiv.addEventListener('click', function () {
+        const isActive = div.classList.contains('active');
+        div.classList.toggle('active');
+        this.setAttribute('aria-expanded', !isActive);
+      });
+    });
+
+    // (Optional) open first item by default to show the UX
+    // document.querySelector('.faq-item')?.classList.add('active');
+  </script>
+</body>
+</html>
